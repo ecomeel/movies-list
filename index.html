@@ -5,10 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo&display=swap" rel="stylesheet">
     <script src="js/index.js"></script>
     <title>Movies List</title>
 </head>
 <body>
-    <h1>hello</h1>
+    <div class="movies">
+        <header class="movies__header">
+            <div class="container">
+                <h1 class="movies__title"><div class="violet-wrapper">список фильмов</div><div class="violet-wrapper">2023</div></h1>
+                <h2 class="movies__subtitle">Посмотреть</h2>
+            </div>
+        </header>
+        <main class="content">
+            <div class="container">
+                <div class="add-movie">
+                    <input 
+                        id="AddMovieInput"
+                        class="add-movie__name"
+                        type="text"
+                        placeholder="Добавить фильм">
+                    <button class="add-movie__btn"><img class="add-movie__btn-img" src="img/arrow.png" alt=""></button>
+                </div>
+                <ol id="moviesList" class="movies-list">
+                    <li class="movie">
+                        <button>
+                            <img src="img/circle.png" alt="">
+                        </button>
+                        <p>sldfskdfls</p>
+                        <button>
+                            <img src="img/cross.png" alt="">
+                        </button>
+                    </li>
+                </ol>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

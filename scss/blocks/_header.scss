@@ -1,0 +1,22 @@
+.movies__header {
+    padding-top: 80px;
+}
+
+.movies__title {
+    font-size: 15px;
+    line-height: 17.25px;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+.movies__subtitle {
+    margin-top: 20px;
+    font-size: 120px;
+    line-height: 138.47px;
+    letter-spacing: -0.04em;
+}
+.violet-wrapper {
+    display: inline-block;
+    background-color: $violet-color;
+    padding: 10px 22px;
+    border-radius: 200px;
+}
