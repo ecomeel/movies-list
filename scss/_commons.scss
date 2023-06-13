@@ -1,0 +1,23 @@
+.container {
+    margin: 0 auto;
+    width: 790px;
+}
+.content {
+    flex: 1 0 auto;
+    margin: 0 auto;
+    margin-top: 45px;
+    padding-top: 60px;
+    width: 930px;
+    background-color: #232323;
+    border-radius: 20px;
+}
+.movie_viewed {
+    opacity: .3;
+    text-decoration: line-through;
+}
+.movie_none {
+    display: none !important;
+}
+.violet-bck {
+    background-color: $violet-color;
+}
