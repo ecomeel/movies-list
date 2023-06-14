@@ -11,7 +11,6 @@ const getMovieFromUser = () => {
     const indexMovie = getMovies().length;
     newMovieInputNode.value = '';
     return {
-        // index: indexMovie,
         viewed: '',
         name: newMovieName,
         deleted: false
