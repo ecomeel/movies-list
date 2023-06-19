@@ -1,98 +1,33 @@
-// const newMovieInputNode = document.getElementById('addMovieInput');
-// const newMovieBtnNode = document.getElementById('addMovieBtn');
-// const moviesListNode = document.getElementById('moviesList');
-// const viewedMovieBtn = document.getElementsByClassName('movie__check-view');
-// const deleteMovieBtn = document.getElementsByClassName('movie__delete');
-
-// const movies = [];
-
-// const getMovieFromUser = () => {
-//     const newMovieName = newMovieInputNode.value;
-//     newMovieInputNode.value = '';
-//     return {
-//         viewed: '',
-//         name: newMovieName,
-//         deleted: false
-//     };
-// }
-
-// const addMovie = (newMovie) => {
-//     movies.push(newMovie);
-// }
-
-// const getMovies = () => {
-//     return movies;
-// }
-
-// const viewedMovie = () => {
-//     for (let i = 0; i < viewedMovieBtn.length; i++) {
-//         viewedMovieBtn[i].addEventListener('click', function() {
-//             viewedMovieBtn[i].parentElement.classList.toggle('movie_viewed');
-//             viewedMovieBtn[i].childNodes[1].classList.add('violet-bck')
-//             console.log(viewedMovieBtn[i].children)
-//             movies[i].viewed = 'movie_viewed';
-//         })
-//     }
-// }
-
-// const deleteMovie = () => {
-//     for (let i = 0; i < deleteMovieBtn.length; i++) {
-//         deleteMovieBtn[i].addEventListener('click', () => {
-//             deleteMovieBtn[i].parentElement.classList.add('movie_none');
-//             movies[i].deleted = 'deleted';
-//             movies.splice(i, 1);
-
-//         })
-        
-//     }
-// }
-
-// const renderMovies = () => {
-//     let moviesHTML = '';
-//     const moviesList = getMovies();
-
-//     moviesList.forEach(movie => {
-//         // if (movie.deleted == 'deleted') {
-//         //     return
-//         // }
-//         moviesHTML = moviesHTML + `
-//             <li class='movie ${movie.viewed}'>
-//                 <button class='movie__check-view'>
-//                     <img src="img/circle.png" alt="">
-//                 </button>
-//                 <p class='movie__name'>${movie.name}</p>
-//                 <button class='movie__delete'>
-//                     <img src="img/cross.png" alt="">
-//                 </button>
-//             </li>
-//         `;
-
-//     });
-
-//     moviesListNode.innerHTML = moviesHTML;
-
-// }
-
-
-
-// const newMovieHandler = () => {
-//     const newMovie = getMovieFromUser();
-//     addMovie(newMovie);
-//     renderMovies();
-//     viewedMovie();
-//     deleteMovie();
-//     console.log(movies)
-
-// }
-
-// newMovieBtnNode.addEventListener('click', newMovieHandler);
-
+const VIEW_BTN_CLASSNAME = 'movie__check-view';
+const VIEWED_MOVIE_CLASSNAME = 'movie_viewed';
+const DELETE_BTN_CLASSNAME = 'movie__delete';
+const VIOLET_BACKGROUND_COLOR_CLASSNAME = 'violet-back'
+const EMPTY_INPUT_ERROR_CLASSNAME = 'red-color';
+const STORAGE_MOVIES_LABEL = 'movies';
 
 const newMovieInputNode = document.getElementById('addMovieInput');
 const newMovieBtnNode = document.getElementById('addMovieBtn');
 const moviesListNode = document.getElementById('moviesList');
 
-const movies = [];
+let movies = [];
+
+const initMovies = () => {
+    if (Array.isArray(getMoviesFromStorage())) {
+        movies = getMoviesFromStorage();
+    }
+    renderMovies();
+}
+
+const saveMoviesToStorage = () => {
+    const moviesString = JSON.stringify(getMovies());
+    localStorage.setItem(STORAGE_MOVIES_LABEL, moviesString);
+}
+
+const getMoviesFromStorage = () => {
+    const moviesFromStorageString = localStorage.getItem(STORAGE_MOVIES_LABEL);
+    const moviesFromStorage = JSON.parse(moviesFromStorageString);
+    return moviesFromStorage;
+}
 
 const clearInput = () => {
     newMovieInputNode.value = '';
@@ -111,6 +46,64 @@ const getMovies = () => {
 const addMovie = (movie) => {
     const moviesList = getMovies();
     moviesList.push(movie);
+}
+
+const isEmptyInput = (input) => {
+    if (!input) return true
+    else return false;
+}
+
+const isClickedViewBtn = (viewBtn) => {
+    if (viewBtn.classList.contains(VIEW_BTN_CLASSNAME)) return true
+    else return false
+}
+
+const isClickedDeleteBtn = (deleteBtn) => {
+    if (deleteBtn.className === DELETE_BTN_CLASSNAME) return true
+    else return false
+}
+
+const validation = (newMovie) => {
+    if (isEmptyInput(newMovie)) {
+        newMovieInputNode.classList.add(EMPTY_INPUT_ERROR_CLASSNAME);
+        return false
+    }
+    newMovieInputNode.classList.remove(EMPTY_INPUT_ERROR_CLASSNAME);
+    return true
+}
+
+const changeViewStatus = (viewBtn, liNode, movieName) => {
+    const movies = getMovies();
+
+    if (liNode.classList.contains(VIEWED_MOVIE_CLASSNAME)) {
+        movies.forEach(movie => {
+            if (movie.name === movieName) {
+                movie.viewed = '';
+                movie.violetBackBtn = '';
+            }
+        });
+    } else {
+        movies.forEach(movie => {
+            if (movie.name === movieName) {
+                movie.viewed = VIEWED_MOVIE_CLASSNAME;
+                movie.violetBackBtn = VIOLET_BACKGROUND_COLOR_CLASSNAME;
+            }
+        });
+    }
+    liNode.classList.toggle(VIEWED_MOVIE_CLASSNAME);
+    viewBtn.classList.toggle(VIOLET_BACKGROUND_COLOR_CLASSNAME);
+}
+
+const deleteMovie = (liNode, movieName) => {
+    const movies = getMovies()
+
+    liNode.style.display = 'none';
+    for (let i = 0; i < movies.length; i++) {
+        if (movies[i].name === movieName) {
+            movies.splice(i, 1);
+        }
+    }
+    console.log(movies)
 }
 
 const renderMovies = () => {
@@ -132,67 +125,31 @@ const renderMovies = () => {
 
 }
 
-const isEmptyInput = (input) => {
-    if (!input) return true
-    else return false;
-}
-
 const newMovieHandler = () => {
     const newMovie = getNewMovieFromUser();
-
-    if (isEmptyInput(newMovie.name)) {
-        newMovieInputNode.classList.add('red-border');
-        return
-    }
-    newMovieInputNode.classList.remove('red-border');
-
+    if (!validation(newMovie.name)) return;
     addMovie(newMovie);
+
+    saveMoviesToStorage();
+
     renderMovies();
 }
 
-const movieHandler = (event) => {
+const movieEventsHandler = (event) => {
     const btnClicked = event.target;
-    const li = btnClicked.closest('li');
-    const movieNameNode = li.querySelector('.movie__name');
+    const liNode = btnClicked.closest('li');
+    const movieName = liNode.querySelector('.movie__name').innerText;
 
-    const movies = getMovies();
-    
-    // if clicked check-view btn
-    if (btnClicked.classList.contains('movie__check-view')) {
-
-        if (li.classList.contains('movie_viewed')) {
-            movies.forEach(movie => {
-                if (movie.name === movieNameNode.innerText) {
-                    movie.viewed = '';
-                    movie.violetBackBtn = '';
-                }
-            });
-        } else {
-            movies.forEach(movie => {
-                if (movie.name === movieNameNode.innerText) {
-                    movie.viewed = 'movie_viewed';
-                    movie.violetBackBtn = 'violet-back';
-                }
-            });
-        }
-        
-        li.classList.toggle('movie_viewed');
-        btnClicked.classList.toggle('violet-back')
+    if (isClickedViewBtn(btnClicked)) {
+        changeViewStatus(btnClicked, liNode, movieName);
     }
 
-    // if clicked delete btn
-    if (btnClicked.className === 'movie__delete') {
-        li.style.display = 'none';
-        for (let i = 0; i < movies.length; i++) {
-            if (movies[i].name === movieNameNode.innerText) {
-                movies.splice(i, 1);
-            }
-        }
-        console.log(movies)
+    if (isClickedDeleteBtn(btnClicked)) {
+        deleteMovie(liNode, movieName);
     }
-
-    console.log(event.target.closest('li'))
 }
 
+initMovies()
+
 newMovieBtnNode.addEventListener('click', newMovieHandler);
-moviesListNode.addEventListener('click', movieHandler)
+moviesListNode.addEventListener('click', movieEventsHandler)
