@@ -101,7 +101,7 @@ const clearInput = () => {
 const getNewMovieFromUser = () => {
     const newMovieName = newMovieInputNode.value;
     clearInput();
-    return {name: newMovieName, viewed: ''};
+    return {name: newMovieName, viewed: '', violetBackBtn: ''};
 }
 
 const getMovies = () => {
@@ -120,7 +120,7 @@ const renderMovies = () => {
     movies.forEach(movie => {
         moviesHTML =  `
             <li class='movie ${movie.viewed}'>
-                 <button class='movie__check-view'></button>
+                 <button class='movie__check-view ${movie.violetBackBtn}'></button>
                  <p class='movie__name'>${movie.name}</p>
                  <button class='movie__delete'>
                 </button>
@@ -153,40 +153,42 @@ const newMovieHandler = () => {
 const movieHandler = (event) => {
     const btnClicked = event.target;
     const li = btnClicked.closest('li');
-    const pTag = li.querySelector('.movie__name');
+    const movieNameNode = li.querySelector('.movie__name');
 
+    const movies = getMovies();
     
-
+    // if clicked check-view btn
     if (btnClicked.classList.contains('movie__check-view')) {
-        
-        const movies = getMovies();
-        
+
         if (li.classList.contains('movie_viewed')) {
-            li.classList.remove('movie_viewed');
-            btnClicked.classList.remove('violet-back');
             movies.forEach(movie => {
-                if (movie.name === pTag.innerText) {
+                if (movie.name === movieNameNode.innerText) {
                     movie.viewed = '';
+                    movie.violetBackBtn = '';
                 }
             });
         } else {
-            li.classList.add('movie_viewed');
-            btnClicked.classList.add('violet-back');
             movies.forEach(movie => {
-                if (movie.name === pTag.innerText) {
+                if (movie.name === movieNameNode.innerText) {
                     movie.viewed = 'movie_viewed';
+                    movie.violetBackBtn = 'violet-back';
                 }
             });
         }
         
-        // li.classList.toggle('movie_viewed');
-        // btnClicked.classList.toggle('violet-back')
-        console.log(movies)
+        li.classList.toggle('movie_viewed');
+        btnClicked.classList.toggle('violet-back')
     }
 
-    
-    if (event.target.className === 'movie__delete') {
-        console.log('deleted')
+    // if clicked delete btn
+    if (btnClicked.className === 'movie__delete') {
+        li.style.display = 'none';
+        for (let i = 0; i < movies.length; i++) {
+            if (movies[i].name === movieNameNode.innerText) {
+                movies.splice(i, 1);
+            }
+        }
+        console.log(movies)
     }
 
     console.log(event.target.closest('li'))
