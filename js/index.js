@@ -92,6 +92,7 @@ const changeViewStatus = (viewBtn, liNode, movieName) => {
     }
     liNode.classList.toggle(VIEWED_MOVIE_CLASSNAME);
     viewBtn.classList.toggle(VIOLET_BACKGROUND_COLOR_CLASSNAME);
+    saveMoviesToStorage()
 }
 
 const deleteMovie = (liNode, movieName) => {
@@ -103,6 +104,7 @@ const deleteMovie = (liNode, movieName) => {
             movies.splice(i, 1);
         }
     }
+    saveMoviesToStorage()
 }
 
 const renderMovies = () => {
