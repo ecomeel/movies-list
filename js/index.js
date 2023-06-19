@@ -103,7 +103,6 @@ const deleteMovie = (liNode, movieName) => {
             movies.splice(i, 1);
         }
     }
-    console.log(movies)
 }
 
 const renderMovies = () => {
