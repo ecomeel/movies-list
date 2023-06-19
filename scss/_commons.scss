@@ -11,13 +11,14 @@
     background-color: #232323;
     border-radius: 20px;
 }
+.red-border {
+    border-bottom: 1px solid red !important;
+}
 .movie_viewed {
     opacity: .3;
     text-decoration: line-through;
 }
-.movie_none {
-    display: none !important;
-}
-.violet-bck {
-    background-color: $violet-color;
+
+.violet-back {
+    background-image: url('../img/circle-violet-back.png') !important;
 }

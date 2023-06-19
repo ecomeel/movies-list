@@ -99,17 +99,17 @@ button {
   border-radius: 20px;
 }
 
+.red-border {
+  border-bottom: 1px solid red !important;
+}
+
 .movie_viewed {
   opacity: 0.3;
   text-decoration: line-through;
 }
 
-.movie_none {
-  display: none !important;
-}
-
-.violet-bck {
-  background-color: #6532F8;
+.violet-back {
+  background-image: url("../img/circle-violet-back.png") !important;
 }
 
 .movies__header {
@@ -186,6 +186,12 @@ button {
 }
 .movie__check-view {
   margin-left: 20px;
+  background-image: url("../img/circle.png");
+  background-size: contain;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 20px;
 }
 .movie__name {
   margin-left: 20px;
@@ -194,4 +200,10 @@ button {
   position: absolute;
   top: 24px;
   right: 24px;
+  background-image: url("../img/cross.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 23px;
+  height: 23px;
 }/*# sourceMappingURL=style.css.map */
