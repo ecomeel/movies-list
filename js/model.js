@@ -10,8 +10,12 @@ class Model {
     }
 
     addMovie(movie) {
-        this.movies.push({name: movie, viewed: '', violetBackBtn: ''});
+        this.movies.push(movie);
 
         this.onMoviesChanged(this.movies)
+    }
+
+    setMovies(movies) {
+        this.movies = movies;
     }
 }
